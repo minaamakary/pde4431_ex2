@@ -17,5 +17,9 @@
  
   <!--Launch Gazebo Simulator-->
   <node name="spawn_model" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model rover" output="screen"/>
-
+  
+<node name="teleop" pkg="pde4430_ex2" type="rover_teleoperation.py" output="screen">
+        <remap from="/cmd_vel" to="/rover/base_controller/cmd_vel"/>
+  </node>
+  
 </launch>
