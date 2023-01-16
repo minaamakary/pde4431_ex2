@@ -12,7 +12,7 @@
       <wheelDiameter>${wheel_radius * 2}</wheelDiameter>
       <torque>20</torque>
       <commandTopic>/rover/base_controller/cmd_vel</commandTopic>
-      <odometryTopic>/rover/base_controller/odom</odometryTopic>
+      <odometryTopic>/odom</odometryTopic>
       <odometryFrame>odom</odometryFrame>
       <robotBaseFrame>base_footprint</robotBaseFrame>
     </plugin>

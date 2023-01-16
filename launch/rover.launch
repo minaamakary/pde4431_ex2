@@ -1,27 +1,37 @@
+<?xml version="1.0"?>
 <launch>
+    <param name="robot_description" command="$(find xacro)/xacro --inorder $(find pde4430_ex2)/urdf/rover.urdf.xacro" />
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find assessment_world)/worlds/assessment.world"/>
+        <arg name="use_sim_time" value="true"/>
+        <arg name="gui" value="true"/>
+        <arg name="headless" value="false"/>
+        <arg name="debug" value="true"/>
+        <arg name="paused" value="false"/>
+    </include>
+    <node name="spawn1" pkg="gazebo_ros" type="spawn_model" args="-file $(find assessment_world)models/small_sphere/model.sdf -sdf -model small_ball -x .5 -y -.5 -z 1" />
+   
+   <node name="spawn2" pkg="gazebo_ros" type="spawn_model" args="-file $(find assessment_world)models/medium_sphere/model.sdf -sdf -model medium_ball -x -.5 -y -.5 -z 1" />
+   
+   <node name="spawn3" pkg="gazebo_ros" type="spawn_model" args="-file $(find assessment_world)models/large_sphere/model.sdf -sdf -model large_ball -x -.5 -y .5 -z 1" />
+   
+   <node name="spawn4" pkg="gazebo_ros" type="spawn_model" args="-file $(find assessment_world)models/wall_box/model.sdf -sdf -model right_wall -x 1 -y 2.1" />
+   
+   <node name="spawn5" pkg="gazebo_ros" type="spawn_model" args="-file $(find assessment_world)models/wall_box/model.sdf -sdf -model left_wall -x 0 -y 2.1" />
+   
+   <node name="move" pkg="assessment_world" type="move_semi_random" />
+    
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model dolly -x 0.5 -y 0.5"/>
+    <node name="Joint_tester" pkg="rviz" type="rviz" output="screen" args="-d $(find pde4430_ex2)/config/Rviz_view.rviz"/>
+    
  
-   <include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <arg name="debug" value="false" />
-    <arg name="gui" value="True" />
-    <arg name="paused" value="false"/>
-    <arg name="use_sim_time" value="false"/>
-    <arg name="headless" value="false"/>
-    <arg name="verbose" value="True"/>
-  </include>
- 
-  <!--Launch Gazebo Simulator-->
-  <node name="spawn_model" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model rover" output="screen"/>
+    
+    
+   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+   
+    <node pkg="gmapping" type="slam_gmapping" name="maping_node">
+        <param name="base_frame" value="base_link" />
+        <param name="delta" value="0.1" />
+    </node>
 
- 
-  <param name="robot_description" command="$(find xacro)/xacro --inorder $(find pde4430_ex2)/urdf/rover.urdf.xacro"/>  
- 
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
- 
-  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
- 
-  <node name="rviz" pkg="rviz" type="rviz" required="true"/>
-   <param name="robot_description" command="$(find xacro)/xacro --inorder $(find pde4430_ex2)/urdf/rover.urdf.xacro"/>  
- 
- 
-
-</launch>
+  </launch>
